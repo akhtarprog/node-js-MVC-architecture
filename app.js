@@ -1,24 +1,29 @@
 let express = require('express')
 let app = express()
-let userRouter = require('./routers/users.routers')
-let adminRouter = require('./routers/admin.routers')
-let bodyPerser = require('body-parser')
+let userRouter = require('./routers/users.router')
+let adminRouter = require('./routers/admin.router')
 
-app.use(bodyPerser.urlencoded({encoded:false}))
-app.use(bodyPerser.json())
+
 
 app.use('/user', userRouter)
 app.use('/admin', adminRouter)
 
 
-
-app.use('/', (req,res)=>{
-    res.sendFile(__dirname+"/index.html")
-    res.statusCode = 200
+//defult home route
+app.get('/', (req,res)=>{
+    res.sendFile(__dirname + "/views/index.html")
 })
 
-
-
-app.listen(3000, ()=>{
-    console.log('http://localhost:3000');
+//invilade route
+app.use((req,res,next)=>{
+    res.status(404)
+    res.send('This route is not found 404')
 })
+
+//server error
+app.use((err, req, res, next)=>{
+    res.status(505)
+    res.send('This server is problem 505')
+})
+
+module.exports = app;
