@@ -14,16 +14,14 @@ app.get('/', (req,res)=>{
     res.sendFile(__dirname + "/views/index.html")
 })
 
-//invilade route
+//invalid route
 app.use((req,res,next)=>{
-    res.status(404)
-    res.send('This route is not found 404')
+    res.status(404).send('This route is not found 404')
 })
 
 //server error
 app.use((err, req, res, next)=>{
-    res.status(505)
-    res.send('This server is problem 505')
+    res.status(505).send('Server error 505')
 })
 
 module.exports = app;
